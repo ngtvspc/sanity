@@ -4,13 +4,12 @@
 ;;; Commentary:
 
 
-
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex magit multi-term python-django))
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			  ("marmalade" . "https://marmalade-repo.org/packages/")
-			   ("melpa" . "https://melpa.org/packages/")))
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 
 (package-initialize)
@@ -35,8 +34,17 @@
 
 (setq mac-command-modifier 'meta)
 
+;; Ido mode
+
 (require 'ido)
 (ido-mode t)
+
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; The old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; Backup
 
@@ -97,7 +105,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (python-django multi-term magit flycheck dracula-theme company ace-window)))
+    (ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
@@ -106,5 +114,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-
