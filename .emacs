@@ -5,11 +5,24 @@
 
 
 
-;;; Code:
+;;; Packages auto-installation
+(setq package-list '(ace-window company dracula-theme flycheck smex magit multi-term python-django))
+
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			 ("marmalade" . "https://marmalade-repo.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")))
+			  ("marmalade" . "https://marmalade-repo.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
+
+
 (package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;;; Code:
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -18,16 +31,12 @@
 
 (setq-default indent-tabs-mode nil)
 
-;;; Function for relative-line-numbers
-;;; Not being used currently
-(defun banana (linenumber)
-  "Return a string representation of an integer for displaying line numbers.
-LINENUMBER - an integer"
-  (cond ((= 0 linenumber) (nth 1 (split-string (what-line))))
-	((> 10 (abs linenumber)) (concat "0" (number-to-string (abs linenumber))))
-	((number-to-string (abs linenumber)))))
+(set-face-attribute 'default nil :height 140)
 
+(setq mac-command-modifier 'meta)
 
+(require 'ido)
+(ido-mode t)
 
 ;;; Backup
 
@@ -60,8 +69,8 @@ LINENUMBER - an integer"
   (interactive)
   (scroll-down 4))
 
-(global-set-key (kbd "ESC <down>") 'gcm-scroll-down)
-(global-set-key (kbd "ESC <up>") 'gcm-scroll-up)
+(global-set-key (kbd "M-<down>") 'gcm-scroll-down)
+(global-set-key (kbd "M-<up>") 'gcm-scroll-up)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
@@ -71,6 +80,10 @@ LINENUMBER - an integer"
 ;; Dracula theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'dracula t)
+
+;; Ace-window mode
+(global-set-key (kbd "M-[") 'ace-window)
+
 
 
 (provide '.emacs)
@@ -82,6 +95,9 @@ LINENUMBER - an integer"
  ;; If there is more than one, they won't work right.
  '(global-relative-line-numbers-mode nil)
  '(global-undo-tree-mode t)
+ '(package-selected-packages
+   (quote
+    (python-django multi-term magit flycheck dracula-theme company ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
@@ -90,3 +106,5 @@ LINENUMBER - an integer"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
