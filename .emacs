@@ -5,7 +5,7 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django))
+(setq package-list '(ace-window dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
@@ -93,7 +93,6 @@
 (global-set-key (kbd "M-[") 'ace-window)
 
 
-
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
@@ -105,7 +104,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
+    (ido-ubiquitous python-django multi-term magit flycheck dracula-theme ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
