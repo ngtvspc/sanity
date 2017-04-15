@@ -5,12 +5,11 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django))
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
-
 
 (package-initialize)
 
@@ -20,6 +19,14 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+;; set up the $PATH correctly for MacOS and Linux
+;; only needs to be done when using the Emacs GUI mode
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+;; copy the python path
+;; (exec-path-from-shell-setenv "PATH" "/Users/shawn/pylint_env/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin")
 
 ;;; Code:
 
@@ -92,6 +99,12 @@
 ;; Ace-window mode
 (global-set-key (kbd "M-[") 'ace-window)
 
+;; Elscreen
+;; (elscreen-start)
+
+
+(require 'editorconfig)
+(editorconfig-mode 1)
 
 (provide '.emacs)
 ;;; .emacs ends here
@@ -104,7 +117,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (ido-ubiquitous python-django multi-term magit flycheck dracula-theme ace-window)))
+    (smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
