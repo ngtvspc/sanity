@@ -5,7 +5,7 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell))
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
@@ -26,20 +26,18 @@
   (exec-path-from-shell-initialize))
 
 ;; copy the python path
-;; (exec-path-from-shell-setenv "PATH" "/Users/shawn/pylint_env/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin")
+;; (exec-path-from-shell-setenv "PATH" )
 
 ;;; Code:
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
 (global-linum-mode t)
 (setq column-number-mode t)
-
+(global-auto-revert-mode 1)
 (setq-default indent-tabs-mode nil)
 
 (set-face-attribute 'default nil :height 110)
 
-(setq mac-command-modifier 'meta)
+;; (setq mac-command-modifier 'meta)
 
 ;; Ido mode
 
@@ -103,6 +101,14 @@
 ;; (elscreen-start)
 
 
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(require 'flycheck-pycheckers)
+(with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+
 (require 'editorconfig)
 (editorconfig-mode 1)
 
@@ -113,11 +119,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-checker-error-threshold 2000)
+ '(flycheck-pycheckers-checkers (quote (pylint flake8)))
  '(global-relative-line-numbers-mode nil)
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
+    (flycheck-pycheckers smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
