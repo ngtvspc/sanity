@@ -5,7 +5,7 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers))
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers js2-mode flow-minor-mode flycheck-flow))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
@@ -105,12 +105,33 @@
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+(require 'flycheck-flow)
+(add-hook 'javascript-mode-hook 'flycheck-mode)
+
 (require 'flycheck-pycheckers)
 (with-eval-after-load 'flycheck
-  (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+  (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+  (flycheck-add-mode 'javascript-flow 'flow-minor-mode)
+  (flycheck-add-mode 'javascript-eslint 'flow-minor-mode)
+  (flycheck-add-next-checker 'javascript-flow 'javascript-eslint))
 
 (require 'editorconfig)
 (editorconfig-mode 1)
+
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(setq flycheck-javascript-flow-executable "/home/shawn/Documents/simplelegal/static/node_modules/flow-bin/flow-linux64-v0.80.0/flow")
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+(add-hook 'js2-mode-hook 'flow-minor-enable-automatically)
 
 (provide '.emacs)
 ;;; .emacs ends here
@@ -125,7 +146,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (flycheck-pycheckers smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
+    (flycheck-flow flow-minor-mode js2-mode flycheck-pycheckers smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
