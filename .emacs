@@ -5,7 +5,7 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers js2-mode flow-minor-mode flycheck-flow))
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers js2-mode flow-minor-mode flycheck-flow python-black))
 
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
