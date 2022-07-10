@@ -5,8 +5,8 @@
 
 
 ;;; Packages auto-installation
-(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term python-django elscreen editorconfig exec-path-from-shell flycheck-pycheckers))
-
+(setq package-list '(ace-window company dracula-theme flycheck smex ido-ubiquitous magit multi-term elscreen editorconfig exec-path-from-shell flycheck-pycheckers rjsx-mode))
+;; any packages not install automatically may have to be manually installed via browsing package-list-packages
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -69,10 +69,6 @@
 (setq backup-directory-alist `((".*" . "~/.saves")))
 (setq auto-save-file-name-transforms `((".*" "~/.saves/" t)))
 
-;;; Python Django Mode
-(add-to-list 'load-path "~/.emacs.d/python-django")
-(require 'python-django)
-
 ;;; Scroll window around cursor
 (defun gcm-scroll-down ()
   (interactive)
@@ -125,7 +121,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (flycheck-pycheckers smex editorconfig elscreen ido-ubiquitous python-django multi-term magit flycheck dracula-theme company ace-window)))
+    (flycheck-pycheckers smex editorconfig elscreen ido-ubiquitous multi-term magit flycheck dracula-theme company ace-window rjsx-mode)))
  '(show-paren-mode t)
  '(undo-tree-visualizer-diff t))
 (custom-set-faces
